@@ -2,6 +2,8 @@ package com.moodleap.server.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -12,6 +14,9 @@ public class User {
     private String uid;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mood> moods = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
@@ -35,8 +40,13 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public String getUid() {
         return uid;
+    }
+
+    public List<Mood> getMoods() {
+        return moods;
     }
 
 }
